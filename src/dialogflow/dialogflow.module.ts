@@ -5,5 +5,6 @@ import { DialogflowController } from './dialogflow.controller';
 @Module({
   providers: [DialogflowService],
   controllers: [DialogflowController],
+  exports: [DialogflowService],
 })
 export class DialogflowModule {}
