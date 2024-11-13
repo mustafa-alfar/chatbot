@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { ChatGptService } from 'src/chat-gpt/chat-gpt.service';
 
 @Injectable()
 export class DialogflowService {
-  constructor() {}
+  constructor(private readonly service: ChatGptService) {}
 
-  hanleDialogflowWebhook(body: any) {
+  async hanleDialogflowWebhook(body: any) {
     // Extract the intent name from the request
     const intentName = body.queryResult.intent.displayName;
 
@@ -12,7 +13,9 @@ export class DialogflowService {
     let responseText = '';
     switch (intentName) {
       case 'Welcome Intent':
-        responseText = 'Welcome! How can I assist you today?';
+        responseText = await this.service.getModelAnswer(
+          'what year are we in?',
+        );
         break;
       case 'Help Intent':
         responseText = 'Here are some things I can help you with...';
